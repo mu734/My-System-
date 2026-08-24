@@ -1,0 +1,32 @@
+steps:
+  # Build the container image using lowercase tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/whitetable-pos:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/whitetable-pos:latest', '.']
+
+  # Push image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/whitetable-pos:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/whitetable-pos:latest']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'whitetable-pos'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/whitetable-pos:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '3000'
+
+images:
+  - 'gcr.io/$PROJECT_ID/whitetable-pos:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/whitetable-pos:latest'
