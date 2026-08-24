@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'tnum';
+    font-variant-numeric: tabular-nums;
+  }
+
+  body {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #1e293b;
+    background-color: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  [dir="rtl"] body, [dir="rtl"] {
+    font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, -apple-system, sans-serif;
+  }
+
+  /* Make sure all numbers and monospaced number spans share the exact same aesthetic typeface */
+  .font-mono, [class*="font-mono"] {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: -0.01em;
+  }
+
+  /* Dedicated Cairo Font Family Classes */
+  .font-cairo {
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+
+  /* Pure Bold Black Cairo Thermal Receipt Styles (Screen & Print) */
+  #printable-customer-receipt,
+  #printable-kitchen-ticket,
+  #printable-both-receipts,
+  .receipt-cairo-card {
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    color: #000000 !important;
+    font-feature-settings: 'tnum' 1, 'cv02' 1, 'cv03' 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #printable-customer-receipt *,
+  #printable-kitchen-ticket *,
+  #printable-both-receipts *,
+  .receipt-cairo-card * {
+    font-family: inherit !important;
+  }
+}
+
+/* =========================================================================
+   PRINT STYLES FOR A4 & THERMAL RECEIPT INVOICES & KITCHEN TICKETS
+   ========================================================================= */
+@media print {
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Suppress all non-printable chrome and buttons */
+  header,
+  aside,
+  nav,
+  .app-sidebar,
+  .app-header,
+  .no-print,
+  .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Hide main background app when modal is open */
+  body:has(#receipt-modal-backdrop) > #root > div > *:not(#receipt-modal-backdrop),
+  body:has(#kitchen-ticket-modal-backdrop) > #root > div > *:not(#kitchen-ticket-modal-backdrop),
+  body:has(#invoice-modal-backdrop) > #root > div > *:not(#invoice-modal-backdrop) {
+    display: none !important;
+  }
+
+  /* Reset modal overlays so they don't trap printing in fixed boxes */
+  #kitchen-ticket-modal-backdrop,
+  #receipt-modal-backdrop,
+  #invoice-modal-backdrop {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    inset: auto !important;
+  }
+
+  #kitchen-ticket-modal-dialog,
+  #receipt-modal-container {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+    border-radius: 0 !important;
+  }
+
+  /* 80mm Thermal Slips: Kitchen Ticket & Customer Receipt */
+  #printable-kitchen-ticket,
+  #printable-customer-receipt,
+  #printable-both-receipts,
+  .receipt-cairo-card {
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #printable-kitchen-ticket *,
+  #printable-customer-receipt *,
+  #printable-both-receipts *,
+  .receipt-cairo-card * {
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+
+  #printable-kitchen-ticket,
+  #printable-customer-receipt {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    margin: 0 auto !important;
+    padding: 3mm 2mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #printable-kitchen-ticket {
+    border: none !important;
+  }
+
+  /* When printing both slips separated */
+  #printable-both-receipts {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  #printable-both-receipts > div:not(.no-print) {
+    display: block !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    margin: 0 auto 4mm auto !important;
+    padding: 3mm 2mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px dashed #000000 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* A4 Invoice Document */
+  #printable-invoice-document {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 210mm !important;
+    margin: 0 auto !important;
+    padding: 8mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Force background colors and crisp borders in print preview */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Large Obvious Font Mode for Customer Thermal Receipts */
+  .receipt-large-font {
+    font-size: 11.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .receipt-large-font .receipt-item-title {
+    font-size: 12pt !important;
+    font-weight: 800 !important;
+  }
+
+  .receipt-large-font .receipt-grand-total {
+    font-size: 16pt !important;
+    font-weight: 900 !important;
+  }
+
+  /* Extra Large Obvious Kitchen Font for Line Cooks & Baristas */
+  .kot-large-font {
+    font-size: 13pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .kot-large-font .kot-order-num {
+    font-size: 22pt !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .kot-large-font .kot-location {
+    font-size: 14pt !important;
+    font-weight: 800 !important;
+  }
+
+  .kot-large-font .kot-qty-badge {
+    font-size: 16pt !important;
+    font-weight: 900 !important;
+    min-width: 32px !important;
+  }
+
+  .kot-large-font .kot-item-title {
+    font-size: 14pt !important;
+    font-weight: 900 !important;
+  }
+
+  .kot-large-font .kot-addon-note {
+    font-size: 11.5pt !important;
+    font-weight: 700 !important;
+  }
+
+  /* Page Break / Split Slips for multi-slip printing */
+  .page-break-after-slip {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+}
+

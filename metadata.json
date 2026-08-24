@@ -1,0 +1,8 @@
+{
+  "name": "Remix White Table POS \u0026 Coworking Hub",
+  "description": "Comprehensive Point of Sale, Café \u0026 Restaurant Menu Manager, Coworking Desk Bookings, Inventory Stock Management, Invoicing, and Customer CRM for White Table.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
